@@ -89,13 +89,13 @@ pip install -U lesserapi
 py -m pip install --upgrade lesserapi
 ```
 
-<br>
+<br><br><br>
 
 > [!WARNING]
 > This Package Only can run in Python 3.11.3 or above.
 
 <hr>
-<br><br><br>
+<br>
 <h1 align='left'><b>Usage</b></h1>
 
 <br>
