@@ -7,9 +7,9 @@ if (__debug__):
         from colorama.ansi import Fore
         from colorama.initialise import init
         from typing import Literal, Union, Any
-        from ..handlers.user_handler import GithubUserHandler
-        from ..handlers.request_handler import GithubRequestHandler
-        from ..exceptions import UserHasNoLocationException, NonePublicArchiveRepositoryException, NoneFilledPropertyException
+        from ...handlers.user_handler import UserHandler
+        from ...handlers.request_handler import RequestHandler
+        from ...exceptions import UserHasNoLocationException, NonePublicArchiveRepositoryException, NoneFilledPropertyException
     
     except ModuleNotFoundError.__doc__ as mnfe:
         raise mnfe
@@ -22,7 +22,8 @@ if (__debug__):
 
 
 class GithubScrape:
-    def __init__(self, data: GithubRequestHandler) -> Literal[None]:
+    """ Use This class to Gather and Identify Users on Github Platform. """
+    def __init__(self, data: RequestHandler) -> Literal[None]:
         super(GithubScrape, self).__init__()
         self.__data = data
         self.__json_data = {}
@@ -173,7 +174,7 @@ class GithubScrape:
         names: list = []
         
         try:
-            for element in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(get_repos=True)).sendGetRequest(content=True), features='html5lib').find(name='h3', attrs={'class': 'wb-break-all'}).find_all_next(name='a', attrs={'itemprop': 'name codeRepository'}):
+            for element in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(get_repos=True)).sendGetRequest(content=True), features='html5lib').find(name='h3', attrs={'class': 'wb-break-all'}).find_all_next(name='a', attrs={'itemprop': 'name codeRepository'}):
                 names.append(str(element).replace('href', '').replace('itemprop="name codeRepository', '').replace(f'<a ="/{username}/', '').replace('</a>', '').replace('">', '').replace('"', '').split(sep=' ')[0])
             
             self.json_data['repositoriesNames'] = names
@@ -188,7 +189,7 @@ class GithubScrape:
     def repositoryDescription(self, username:str, repo_name: str, reverse: bool = False) -> Union[str, None]:
         try:
             self.__json_data['repositoryDescription'] = bs4.BeautifulSoup(
-                markup=GithubRequestHandler(url=GithubUserHandler(username=username,).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
+                markup=RequestHandler(url=UserHandler(username=username,).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
                 features='html5lib',
             ).find(
                 name='p',
@@ -209,7 +210,7 @@ class GithubScrape:
         
         try:
             self.__json_data['isRepositoryPublicArchive'] = bs4.BeautifulSoup(
-                markup=GithubRequestHandler(url=GithubUserHandler(username=username,).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
+                markup=RequestHandler(url=UserHandler(username=username,).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
                 features='html5lib',
             ).find(
                 name='span',
@@ -231,7 +232,7 @@ class GithubScrape:
         langs: list[str] = []
         
         try:
-            for lang in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find(name='ul', attrs={'class': 'list-style-none'}).find_all_next(name='span', attrs={'class': 'color-fg-default text-bold mr-1'}):
+            for lang in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find(name='ul', attrs={'class': 'list-style-none'}).find_all_next(name='span', attrs={'class': 'color-fg-default text-bold mr-1'}):
                 langs.append(lang.text)
         except:
             langs = [None]
@@ -250,7 +251,7 @@ class GithubScrape:
         achievements: list[str] = []
         
         try:
-            for achievement in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(get_achievements=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'd-flex flex-wrap p-3'}).find_all_next(name='h3', attrs={'class': 'f4 ws-normal'}):
+            for achievement in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(get_achievements=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'd-flex flex-wrap p-3'}).find_all_next(name='h3', attrs={'class': 'f4 ws-normal'}):
                 achievements.append(achievement.text)
         except:
             achievements = [None]
@@ -260,7 +261,7 @@ class GithubScrape:
     def checkRepositoryStars(self, username: str, repo_name: str) -> Union[int, None]:
         try:
             self.__json_data['checkRepositoryStars'] = bs4.BeautifulSoup(
-                markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
+                markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
                 features='html5lib',
             ).find(
                 name='svg',
@@ -278,7 +279,7 @@ class GithubScrape:
     def repositoryLastCommitDateOnBranch(self, username: str, repo_name: str, branch_name: str) -> Union[str, None]:
         try:
             self.__json_data['repositoryLastCommitDateOnBranch'] = bs4.BeautifulSoup(
-                markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(
+                markup=RequestHandler(url=UserHandler(username=username).serialize(
                     get_branch=True,
                     branch_name=branch_name,
                     get_repos=True,
@@ -300,7 +301,7 @@ class GithubScrape:
         commits: list[str] = []
         
         try:
-            for commit in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(get_branch=True, branch_name=branch_name, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find_all(name='h2', attrs={'class': 'f5 text-normal'}):
+            for commit in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(get_branch=True, branch_name=branch_name, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find_all(name='h2', attrs={'class': 'f5 text-normal'}):
                 commits.append(str(commit).replace('<h2 class="f5 text-normal">Commits on ', '').replace('</h2>', ''))
         except:
             commits = [None]
@@ -311,7 +312,7 @@ class GithubScrape:
         try:
             self.__json_data['repositoryBranchesCount'] = int(
                 bs4.BeautifulSoup(
-                    markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
+                    markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
                     features='html5lib',
                 ).find(
                     name='div',
@@ -330,7 +331,7 @@ class GithubScrape:
     def currentRepositoryIsForkedFromAnotherRepository(self, username: str, repo_name: str) -> bool:
         try:
             self.__json_data['currentRepositoryIsForkedFromAnotherRepository'] = bs4.BeautifulSoup(
-                markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
+                markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
                 features='html5lib',
             ).find(
                 name='span',
@@ -350,7 +351,7 @@ class GithubScrape:
     def repositoryHasLicense(self, username: str, repo_name: str) -> bool:
         try:
             self.__json_data['repositoryHasLicense'] = bs4.BeautifulSoup(
-                markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
+                markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
                 features='html5lib',
             ).find(
                 name='h3',
@@ -370,7 +371,7 @@ class GithubScrape:
     def repositoryLicenseType(self, username: str, repo_name: str) -> Union[str, None]:
         try:
             self.__json_data['repositoryLicenseType'] = bs4.BeautifulSoup(
-                markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
+                markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
                 features='html5lib',
             ).find(
                 name='a',
@@ -391,7 +392,7 @@ class GithubScrape:
         watchers: list[str] = []
         
         try:
-            for watcher in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(watchers=True, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find(name='ol', attrs={'class': 'd-block d-md-flex flex-wrap gutter list-style-none'}).find_all(name='a', attrs={'data-octo-click': 'hovercard-link-click'}):
+            for watcher in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(watchers=True, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find(name='ol', attrs={'class': 'd-block d-md-flex flex-wrap gutter list-style-none'}).find_all(name='a', attrs={'data-octo-click': 'hovercard-link-click'}):
                 watchers.append(watcher.get_text())
         except:
             watchers = [None]
@@ -402,7 +403,7 @@ class GithubScrape:
         branches: list[str] = []
         
         try:
-            for branch in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(branches_count=True, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find_all(name='a', attrs={'class': 'branch-name css-truncate-target v-align-baseline width-fit mr-2 Details-content--shown'}):
+            for branch in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(branches_count=True, repo_name=repo_name)).sendGetRequest(content=True), features='html5lib').find_all(name='a', attrs={'class': 'branch-name css-truncate-target v-align-baseline width-fit mr-2 Details-content--shown'}):
                 branches.append(branch.get_text())
         except:
             branches = [None]
@@ -413,7 +414,7 @@ class GithubScrape:
         followings: list[str] = []
         
         try:
-            for following in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(following=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'position-relative'}).find_all_next(name='span', attrs={'class': 'Link--secondary'}):
+            for following in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(following=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'position-relative'}).find_all_next(name='span', attrs={'class': 'Link--secondary'}):
                 followings.append(following.get_text())
         except:
             followings = [None]
@@ -424,7 +425,7 @@ class GithubScrape:
         followers: list[str] = []
         
         try:
-            for follower in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(follower=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'position-relative'}).find_all_next(name='span', attrs={'class': 'Link--secondary'}):
+            for follower in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(follower=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'position-relative'}).find_all_next(name='span', attrs={'class': 'Link--secondary'}):
                 followers.append(follower.get_text())
         except:
             followers = [None]
@@ -438,7 +439,7 @@ class GithubScrape:
         sgrns: list[str] = []
         
         try:
-            for sgrn in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(stars=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'position-relative'}).find_all_next(name='div', attrs={'class': 'd-inline-block mb-1'}):
+            for sgrn in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(stars=True)).sendGetRequest(content=True), features='html5lib').find(name='div', attrs={'class': 'position-relative'}).find_all_next(name='div', attrs={'class': 'd-inline-block mb-1'}):
                 sgrns.append(sgrn.get_text().strip())
         except:
             sgrns = [None]
@@ -449,7 +450,7 @@ class GithubScrape:
         list_stars: list[int] = []
         
         try:
-            for stars in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize(get_repos_v2=True, get_repos_v2_index=page_index)).sendGetRequest(content=True), features='html5lib').find_all(name='div', attrs={'class': 'f6 color-fg-muted mt-2'}):
+            for stars in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize(get_repos_v2=True, get_repos_v2_index=page_index)).sendGetRequest(content=True), features='html5lib').find_all(name='div', attrs={'class': 'f6 color-fg-muted mt-2'}):
                 list_stars.append(int(str(stars.find('a', {'class': 'Link--muted mr-3'}).get_text()).strip()))
     
         except:
@@ -467,7 +468,7 @@ class GithubScrape:
         orgs: list[str] = []
         
         try:
-            for org in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize()).sendGetRequest(content=True), features='html5lib').find_all(name='img', attrs={'height': '32', 'width': '32', 'class': 'avatar',}):
+            for org in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize()).sendGetRequest(content=True), features='html5lib').find_all(name='img', attrs={'height': '32', 'width': '32', 'class': 'avatar',}):
                 orgs.append(org.get_attribute_list(key='alt')[0])
                 
         except:
@@ -479,7 +480,7 @@ class GithubScrape:
         orgsPics: list[str] = []
         
         try:
-            for org in bs4.BeautifulSoup(markup=GithubRequestHandler(url=GithubUserHandler(username=username).serialize()).sendGetRequest(content=True), features='html5lib').find_all(name='img', attrs={'height': '32', 'width': '32', 'class': 'avatar',}):
+            for org in bs4.BeautifulSoup(markup=RequestHandler(url=UserHandler(username=username).serialize()).sendGetRequest(content=True), features='html5lib').find_all(name='img', attrs={'height': '32', 'width': '32', 'class': 'avatar',}):
                 orgsPics.append(org.get_attribute_list(key='src')[0])
                 
         except:

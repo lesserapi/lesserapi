@@ -12,9 +12,10 @@ if (__debug__):
 
 
 
-class GithubRequestHandler:
+class RequestHandler:
+    """ Base Request Handler for Handling Requests. """
     def __init__(self, url: str) -> Literal[None]:
-        super(GithubRequestHandler, self).__init__()
+        super(RequestHandler, self).__init__()
         self.__url = url
         self.__data = None
         

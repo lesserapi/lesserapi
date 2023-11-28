@@ -1,5 +1,5 @@
 <h1 align='center' style="font-size:5rem"><b>lesserapi</b></h1>
-<p align='center'><b>Version 1.1.16</b></p>
+<p align='center'><b>Version 1.1.18</b></p>
 <p align='center'><b>Written with Python 3.11.3</b></p>
 <div align="center">
     <div align="center">
@@ -148,9 +148,9 @@ if (__name__ == "__main__"):
 
 <br><br><br>
 
-# New Changes on Version 1.1.3
+# New Addons & Changes on Version 1.1.3
 
-- ### Now you can Access User's Repositories Names
+- ### Now you can Access User's Repositories Names.
 
 ```py
 
@@ -193,13 +193,13 @@ if (__name__ == "__main__"):
 
 <br><br><br>
 
-# New Changes on Version 1.1.4
+# New Addons & Changes on Version 1.1.4
 
 ## Now you can Access
 
-- ### User's Total Stars Given
-- ### User's Profile Picture Url
-- ### Check Repository Star Count
+- ### User's Total Stars Given.
+- ### User's Profile Picture Url.
+- ### Check Repository Star Count.
 
 ```python
 
@@ -239,15 +239,15 @@ if (__name__ == "__main__"):
 
 <br><br><br>
 
-# New Changes on Version 1.1.5
+# New Addons & Changes on Version 1.1.5
 
 ## Now you can Access
 
-- ### User's Last Year Contributions
-- ### Check if User's Repository is Public Archive
-- ### Check if User has README.md
-- ### Get Repository's Used Languages
-- ### Get User's Unlocked Achievements
+- ### User's Last Year Contributions.
+- ### Check if User's Repository is Public Archive.
+- ### Check if User has README.md.
+- ### Get Repository's Used Languages.
+- ### Get User's Unlocked Achievements.
 
 
 ```python
@@ -290,25 +290,25 @@ if (__name__ == "__main__"):
 
 <br><br><br>
 
-# New Changes on Version 1.1.9
+# New Addons & Changes on Version 1.1.9
 
 ## Now you can Access
 
-- ### List of User's Followings
-- ### List of User's Followers
-- ### Check Last Commit date of Repository with selected Branch
-- ### Check all Commit Dates of a Repository
-- ### Count the Repository Branches
-- ### Check if a Repository is froked from another Repository
-- ### Check if Repository has a LICENSE
-- ### Check the Repository's License Type
-- ### List Repository's Branches
+- ### List of User's Followings.
+- ### List of User's Followers.
+- ### Check Last Commit date of Repository with selected Branch.
+- ### Check all Commit Dates of a Repository.
+- ### Count the Repository Branches.
+- ### Check if a Repository is froked from another Repository.
+- ### Check if Repository has a LICENSE.
+- ### Check the Repository's License Type.
+- ### List Repository's Branches.
 <br><br>
 
 ## +2 Beta Methods
 
-- ### Get all Stars that the User has given to the Repositories
-- ### List all of the Watchers of a Repository
+- ### Get all Stars that the User has given to the Repositories.
+- ### List all of the Watchers of a Repository.
 
 
 ```python
@@ -374,13 +374,13 @@ if (__name__ == "__main__"):
 
 <br><br><br>
 
-# New Changes on Version 1.1.15
+# New Addons & Changes on Version 1.1.15
 
 ## Now you can Access
 
-- ### Check if User is Pro or Not
-- ### User Organizations
-- ### User Organizations Pictures
+- ### Check if User is Pro or Not.
+- ### User Organizations.
+- ### User Organizations Pictures.
 
 ```python
 
@@ -416,19 +416,91 @@ if (__name__ == "__main__"):
 
 <details>
 
-<summary style="font-size:2rem">Instagram</summary>
+<summary style="font-size:2rem">Steam</summary>
 
-### Soon
+# New Addons & Changes on Version 1.1.16
+
+## Now you can Access Steam.
+## Some Package Structure has changed.
+## Using RequestHandler & UserHandler for gathering steam Users data, has Removed.
+
+```python
+
+from lesserapi.steam.scraper import SteamScrape
+
+
+
+
+def main():
+    scraper: SteamScrape = SteamScrape()
+    
+    scraper.startApi(log=True)
+    
+    # Here you can get the Data of User by 2 types of gathering info: 1-By Profile ID   2- By Profile Code
+    # if user has no Profile ID, don't worry, you can use their Profile Code Instead.
+    print(scraper.displayName(profile_id='shervinbdndev')) # if User has no Profile ID
+    print(scraper.displayName(profile_code='76561198358095760')) # Use their Profile Code
+    
+    print(scraper.location(profile_id='shervinbdndev'))
+    print(scraper.biography(profile_id='shervinbdndev'))
+    print(scraper.accountLevel(profile_id='shervinbdndev'))
+    print(scraper.userStatus(profile_id='shervinbdndev'))
+    print(scraper.recentActivity(profile_id='shervinbdndev'))
+    print(scraper.badges(profile_id='shervinbdndev'))
+    print(scraper.userAwardsMeta(profile_id='shervinbdndev', awards_given=True))
+    
+    # By using this function, you can access some of the User's Meta Data such as these below:
+    print(scraper.userMeta(profile_id='shervinbdndev', totalAwards=True))
+    print(scraper.userMeta(profile_id='shervinbdndev', totalFriends=True))
+    print(scraper.userMeta(profile_id='shervinbdndev', totalBadges=True))
+    print(scraper.userMeta(profile_id='shervinbdndev', totalGames=True))
+    print(scraper.userMeta(profile_id='shervinbdndev', totalGroupsJoined=True))
+    print(scraper.userMeta(profile_id='shervinbdndev', totalReviews=True))
+    print(scraper.userMeta(profile_id='shervinbdndev', totalVideosUploaded=True))
+    
+    # use can use both methods on gathering the user data.
+    print(scraper.userMeta(profile_code='76561198358095760', totalAwards=True))
+    print(scraper.userMeta(profile_code='76561198358095760', totalFriends=True))
+    .
+    .
+    .
+    
+    # here's an Example of put User's last 3 games played into variables by using the function below:
+    # Also do not forget that you can initialize the params
+    games_names: list[str] = scraper.last3GamesPlayedMeta(profile_id='shervinbdndev', names=True)
+    games_info: list[str] = scraper.last3GamesPlayedMeta(profile_id='shervinbdndev', info=True)
+
+    # here you can create a dictionary with values of games and keys of User's game info
+    toDictType: dict[str, str] = dict(zip(games_names, games_info))
+    
+    print(toDictType)
+    
+    
+    # Output
+    # {
+    #     'Counter-Strike 2': '1,397 hrs on recordlast played on 27 Nov',
+    #     'ELDEN RING': '254 hrs on recordlast played on 27 Nov',
+    #     'Far Cry 4': '33 hrs on recordlast played on 27 Nov'
+    # }
+    
+
+
+
+if (__name__ == "__main__"):
+    main()
+
+```
 
 </details>
 
 <details>
 
-<summary style="font-size:2rem">Steam</summary>
+<summary style="font-size:2rem">Instagram</summary>
 
-### Soon
+### Not Soon Cause of Filtering
 
 </details>
+
 
 <details>
 

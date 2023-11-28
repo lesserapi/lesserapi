@@ -6,3 +6,6 @@ class NonePublicArchiveRepositoryException(Exception):
     
 class NoneFilledPropertyException(Exception):
     """User Has not filled this property"""
+    
+class NoneArgumentsInitialized(Exception):
+    """No Arguments Initialized, Please fill the Argument you want to recieve in return"""
