@@ -413,9 +413,18 @@ if (__name__ == "__main__"):
 
 
 </details>
+
 <details>
 
 <summary style="font-size:2rem">Instagram</summary>
+
+### Soon
+
+</details>
+
+<details>
+
+<summary style="font-size:2rem">Steam</summary>
 
 ### Soon
 
