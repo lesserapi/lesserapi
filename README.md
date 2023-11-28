@@ -100,6 +100,10 @@ py -m pip install --upgrade lesserapi
 
 <br>
 
+<details>
+
+<summary style="font-size:2rem">Github</summary>
+
 ```python
 from lesserapi.github.scraper import GithubScrape # Scraper Class
 from lesserapi.github.handlers.user_handler import GithubUserHandler # User Handler Class
@@ -406,7 +410,31 @@ if (__name__ == "__main__"):
 
 ```
 
+
+
+</details>
+<details>
+
+<summary style="font-size:2rem">Instagram</summary>
+
+### Soon
+
+</details>
+
+<details>
+
+<summary style="font-size:2rem">Aparat</summary>
+
+### Soon
+
+
+</details>
+
 <br>
+<br>
+<br>
+
+
 
 <h1 align='left'>Enjoy :)</h1>
 
