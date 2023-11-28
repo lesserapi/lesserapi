@@ -1,6 +1,10 @@
 <h1 align='center' style="font-size:5rem"><b>lesserapi</b></h1>
 <p align='center'><b>Version 1.1.16</b></p>
 <p align='center'><b>Written with Python 3.11.3</b></p>
+
+> [!WARNING]
+> This Package Only can run in Python 3.11.3 or above.
+
 <div align="center">
     <div align="center">
         <img src="https://img.shields.io/github/license/lesserapi/lesserapi.svg"></img>
