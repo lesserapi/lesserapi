@@ -1,3 +1,6 @@
+<a align='center' href="https://github.com/lesserapi/lesserapi">
+    <img src="https://github.com/lesserapi/lesserapi/blob/master/preview/logo.png" alt="Logo" width="180">
+</a>
 <h1 align='center' style="font-size:5rem"><b>lesserapi</b></h1>
 <p align='center'><b>Version 1.1.18</b></p>
 <p align='center'><b>Written with Python 3.11.3</b></p>
