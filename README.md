@@ -111,8 +111,8 @@ py -m pip install --upgrade lesserapi
 
 ```python
 from lesserapi.github.scraper import GithubScrape # Scraper Class
-from lesserapi.github.handlers.user_handler import GithubUserHandler # User Handler Class
-from lesserapi.github.handlers.request_handler import GithubRequestHandler # Request Handler Class
+from lesserapi.handlers.user_handler import UserHandler # User Handler Class
+from lesserapi.handlers.request_handler import RequestHandler # Request Handler Class
 
 
 def main():
@@ -120,8 +120,8 @@ def main():
     # UserHandler serializes the value you given to the username param
     # RequestHandler gets the Serialized data then sends a GET request to github servers and saves the page content in request variable
 
-    request: GithubRequestHandler = GithubRequestHandler(
-        url=GithubUserHandler(username='shervinbdndev').serialize(),
+    request: RequestHandler = RequestHandler(
+        url=UserHandler(username='shervinbdndev').serialize(),
     ).sendGetRequest(content=True)
     
 
@@ -160,15 +160,15 @@ if (__name__ == "__main__"):
 ```py
 
 from lesserapi.github.scraper import GithubScrape
-from lesserapi.github.handlers.user_handler import GithubUserHandler
-from lesserapi.github.handlers.request_handler import GithubRequestHandler
+from lesserapi.handlers.user_handler import UserHandler
+from lesserapi.handlers.request_handler import RequestHandler
 
 
 
 
 def main():
-    request: GithubRequestHandler = GithubRequestHandler(
-        url=GithubUserHandler(username='shervinbdndev').serialize(),
+    request: RequestHandler = RequestHandler(
+        url=UserHandler(username='shervinbdndev').serialize(),
     ).sendGetRequest(content=True)
     
     scraper: GithubScrape = GithubScrape(data=request)
@@ -209,14 +209,14 @@ if (__name__ == "__main__"):
 ```python
 
 from lesserapi.github.scraper import GithubScrape
-from lesserapi.github.handlers.user_handler import GithubUserHandler
-from lesserapi.github.handlers.request_handler import GithubRequestHandler
+from lesserapi.handlers.user_handler import UserHandler
+from lesserapi.handlers.request_handler import RequestHandler
 
 
 
 def main():
-    request: GithubRequestHandler = GithubRequestHandler(
-        url=GithubUserHandler(username='shervinbdndev').serialize()
+    request: RequestHandler = RequestHandler(
+        url=UserHandler(username='shervinbdndev').serialize()
     ).sendGetRequest(content=True)
     
     scraper: GithubScrape = GithubScrape(data=request)
@@ -259,16 +259,16 @@ if (__name__ == "__main__"):
 
 
 from lesserapi.github.scraper import GithubScrape
-from lesserapi.github.handlers.user_handler import GithubUserHandler
-from lesserapi.github.handlers.request_handler import GithubRequestHandler
+from lesserapi.handlers.user_handler import UserHandler
+from lesserapi.handlers.request_handler import RequestHandler
 
 
 
 
 def main():
-    user: GithubUserHandler = GithubUserHandler(username='shervinbdndev').serialize() # user instance
+    user: UserHandler = UserHandler(username='shervinbdndev').serialize() # user instance
     
-    request: GithubRequestHandler = GithubRequestHandler(url=user).sendGetRequest(content=True) # send request by RequestHandler
+    request: RequestHandler = RequestHandler(url=user).sendGetRequest(content=True) # send request by RequestHandler
     
     scraper: GithubScrape = GithubScrape(data=request)
     
@@ -320,8 +320,8 @@ if (__name__ == "__main__"):
 
 
 from lesserapi.github.scraper import GithubScrape
-from lesserapi.github.handlers.user_handler import GithubUserHandler
-from lesserapi.github.handlers.request_handler import GithubRequestHandler
+from lesserapi.handlers.user_handler import UserHandler
+from lesserapi.handlers.request_handler import RequestHandler
 
 
 
@@ -329,7 +329,7 @@ from lesserapi.github.handlers.request_handler import GithubRequestHandler
 def main():
     user: UserHandler = UserHandler(username='shervinbdndev').serialize()
     
-    request: GithubRequestHandler = GithubRequestHandler(url=user).sendGetRequest(content=True)
+    request: RequestHandler = RequestHandler(url=user).sendGetRequest(content=True)
     
     scraper: GithubScrape = GithubScrape(data=request)
     
@@ -390,15 +390,15 @@ if (__name__ == "__main__"):
 ```python
 
 from lesserapi.github.scraper import GithubScrape
-from lesserapi.github.handlers.user_handler import GithubUserHandler
-from lesserapi.github.handlers.request_handler import GithubRequestHandler
+from lesserapi.handlers.user_handler import UserHandler
+from lesserapi.handlers.request_handler import RequestHandler
 
 
 
 def main():
     user: UserHandler = UserHandler(username='shervinbdndev').serialize()
     
-    request: GithubRequestHandler = GithubRequestHandler(url=user).sendGetRequest(content=True)
+    request: RequestHandler = RequestHandler(url=user).sendGetRequest(content=True)
     
     scraper: GithubScrape = GithubScrape(data=request)
     
