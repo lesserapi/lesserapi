@@ -418,7 +418,7 @@ if (__name__ == "__main__"):
 
 <summary style="font-size:2rem">Steam</summary>
 
-# New Addons & Changes on Version 1.1.16
+# New Addons & Changes on Version 1.1.18
 
 ## Now you can Access Steam.
 ## Some Package Structure has changed.
