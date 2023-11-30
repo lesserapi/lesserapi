@@ -1,6 +1,6 @@
 <div align='center'>
     <a href="https://github.com/lesserapi/lesserapi">
-        <img src="https://github.com/lesserapi/lesserapi/blob/master/preview/logo.png" alt="Logo" width="180">
+        <img src="https://raw.githubusercontent.com/lesserapi/lesserapi/logo/logo_rounded.png" alt="Logo" width="180">
     </a>
 </div>
 <h1 align='center' style="font-size:5rem"><b>lesserapi</b></h1>
