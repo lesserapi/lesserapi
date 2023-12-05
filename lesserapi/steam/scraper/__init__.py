@@ -1,6 +1,6 @@
 if (__debug__):
     try:
-        import re, sys, bs4
+        import sys, bs4, requests, json
         from colorama.ansi import Fore
         from colorama.initialise import init
         from typing import Literal, Union, Any
@@ -18,13 +18,19 @@ if (__debug__):
 
 
 
-class SteamScrape:
+class SteamScrape[
+    TProtectedString: Union[str, None],
+    TProtectedInteger: Union[int, None],
+    TProtectedJson: Union[dict[str, Any], None],
+    TProtectedDictionary: Union[dict[Any, Any], None],
+    TProtectedListString: Union[list[str], list[None]],
+]:
     """ Use This class to Gather and Identify Users on Steam Platform. """
-    def __init__(self) -> Literal[None]:
+    def __init__[TSteamScrapeInitializer: Literal[None]](self) -> TSteamScrapeInitializer:
         super(SteamScrape, self).__init__()
         self.__json_data = {}
         
-    def displayName(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[str, None]:
+    def displayName(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedString:
         try:
             self.__json_data['displayName'] = bs4.BeautifulSoup(
                 markup=RequestHandler(
@@ -48,7 +54,7 @@ class SteamScrape:
         
         return self.json_data['displayName']
     
-    def location(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[str, None]:
+    def location(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedString:
         try: 
             self.__json_data['location'] = bs4.BeautifulSoup(
                 markup=RequestHandler(
@@ -72,7 +78,7 @@ class SteamScrape:
             
         return str(''.join(str(self.json_data['location']).split())).replace(profile_id if profile_id is not None else profile_code, '')
     
-    def biography(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[str, None]:
+    def biography(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedString:
         try:
             self.__json_data['biography'] = bs4.BeautifulSoup(
                 markup=RequestHandler(
@@ -96,7 +102,7 @@ class SteamScrape:
             
         return self.json_data['biography']
     
-    def biography(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[str, None]:
+    def biography(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedString:
         try:
             self.__json_data['biography'] = bs4.BeautifulSoup(
                 markup=RequestHandler(
@@ -120,31 +126,197 @@ class SteamScrape:
             
         return self.json_data['biography']
     
-    def accountLevel(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[str, None]:
+    def accountLevel(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedInteger:
         try:
-            self.__json_data['accountLevel'] = bs4.BeautifulSoup(
-                markup=RequestHandler(
-                    url=UserHandler(
-                        username=profile_id if profile_id is not None else profile_code,
-                    ).serialize(
-                        steam_prof_id=True if profile_id is not None else False,
-                        steam_prof_code=True if profile_code is not None else False,
-                    )
-                ).sendGetRequest(content=True),
-                features='html5lib',
-            ).find(
-                name='span',
-                attrs={
-                    'class': 'friendPlayerLevelNum',
-                }
-            ).text
+            self.__json_data['accountLevel'] = int(
+                bs4.BeautifulSoup(
+                    markup=RequestHandler(
+                        url=UserHandler(
+                            username=profile_id if profile_id is not None else profile_code,
+                        ).serialize(
+                            steam_prof_id=True if profile_id is not None else False,
+                            steam_prof_code=True if profile_code is not None else False,
+                        )
+                    ).sendGetRequest(content=True),
+                    features='html5lib',
+                ).find(
+                    name='span',
+                    attrs={
+                        'class': 'friendPlayerLevelNum',
+                    }
+                ).text
+            )
         
         except:
             self.json_data['accountLevel'] = None
             
         return self.json_data['accountLevel']
     
-    def userStatus(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[str, None]:
+    def accountNextLevel(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedInteger:
+        try:
+            self.__json_data['accountNextLevel'] = int(
+                bs4.BeautifulSoup(
+                    markup=RequestHandler(
+                        url=UserHandler(
+                            username=profile_id if profile_id is not None else profile_code,
+                        ).serialize(
+                            steam_badges_prof_id=True if profile_id is not None else False,
+                            steam_badges_prof_code=True if profile_code is not None else False,
+                        )
+                    ).sendGetRequest(content=True),
+                    features='html5lib',
+                ).find(
+                    name='div',
+                    attrs={
+                        'class': 'profile_xp_block_remaining',
+                    }
+                ).text.split(sep=' ')[-1]
+            )
+        
+        except:
+            self.json_data['accountNextLevel'] = None
+            
+        return self.json_data['accountNextLevel']
+    
+    def accountTotalXP(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedString:
+        try:
+            self.__json_data['accountTotalXP'] = bs4.BeautifulSoup(
+                markup=RequestHandler(
+                    url=UserHandler(
+                        username=profile_id if profile_id is not None else profile_code,
+                    ).serialize(
+                        steam_badges_prof_id=True if profile_id is not None else False,
+                        steam_badges_prof_code=True if profile_code is not None else False,
+                    )
+                ).sendGetRequest(content=True),
+                features='html5lib',
+            ).find(
+                name='span',
+                attrs={
+                    'class': 'profile_xp_block_xp',
+                }
+            ).text.strip().replace('XP ', '')
+        
+        except:
+            self.json_data['accountTotalXP'] = None
+            
+        return self.json_data['accountTotalXP']
+    
+    def accountXPNeededForNextLevel(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedInteger:
+        try:
+            self.__json_data['accountXPNeededForNextLevel'] = int(
+                bs4.BeautifulSoup(
+                    markup=RequestHandler(
+                        url=UserHandler(
+                            username=profile_id if profile_id is not None else profile_code,
+                        ).serialize(
+                            steam_badges_prof_id=True if profile_id is not None else False,
+                            steam_badges_prof_code=True if profile_code is not None else False,
+                        )
+                    ).sendGetRequest(content=True),
+                    features='html5lib',
+                ).find(
+                    name='div',
+                    attrs={
+                        'class': 'profile_xp_block_remaining',
+                    }
+                ).text.split(sep=' ')[0]
+            )
+        
+        except:
+            self.json_data['accountXPNeededForNextLevel'] = None
+            
+        return self.json_data['accountXPNeededForNextLevel']
+    
+    def gameDetails(
+        self,
+        game_code: TProtectedInteger = None,
+        raw_json: bool = False,
+        name: bool = False,
+        type: bool = False,
+        app_id: bool = False,
+        required_age: bool = False,
+        is_free: bool = False,
+        detailed_description: bool = False,
+        developers: bool = False,
+        publishers: bool = False,
+        genres: bool = False,
+        header_image: bool = False,
+        platforms: bool = False,
+        linux_requirements: bool = False,
+        mac_requirements: bool = False,
+        pc_requirements: bool = False,
+        metacritic: bool = False,
+        price_overview: bool = False,
+        release_date: bool = False,
+        ) -> TProtectedDictionary:
+        
+        try:
+            response = requests.get(url=f'http://store.steampowered.com/api/appdetails?appids={game_code}').json()
+            
+            self.json_data['gameDetails'] = response
+        except:
+            self.json_data['gameDetails'] = None
+            
+        if (raw_json):
+            return self.json_data['gameDetails']
+            
+        if (name):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['name']    
+        
+        if (type):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['type'] 
+        
+        if (app_id):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['app_id'] 
+        
+        if (required_age):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['required_age'] 
+        
+        if (is_free):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['is_free'] 
+        
+        if (detailed_description):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['detailed_description']
+         
+        if (developers):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['developers'] 
+        
+        if (publishers):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['publishers'] 
+        
+        if (genres):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['genres'] 
+        
+        if (header_image):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['header_image']
+         
+        if (platforms):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['platforms'] 
+        
+        if (linux_requirements):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['linux_requirements'] 
+        
+        if (mac_requirements):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['mac_requirements'] 
+
+        if (pc_requirements):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['pc_requirements'] 
+
+        if (metacritic):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['metacritic'] 
+
+        if (price_overview):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['price_overview'] 
+
+        if (release_date):
+            return self.json_data['gameDetails'][f'{game_code}']['data']['release_date'] 
+
+    
+        else:
+            return NoneArgumentsInitialized.__doc__   
+    
+    def userStatus(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedString:
         try:
             self.__json_data['userStatus'] = bs4.BeautifulSoup(
                 markup=RequestHandler(
@@ -170,8 +342,8 @@ class SteamScrape:
     
     def userMeta(
         self,
-        profile_id: Union[str, None] = None,
-        profile_code: Union[str, None] = None,
+        profile_id: TProtectedString = None,
+        profile_code: TProtectedString = None,
         totalAwards: bool = False,
         totalBadges: bool = False,
         totalGames: bool = False,
@@ -180,7 +352,7 @@ class SteamScrape:
         totalReviews: bool = False,
         totalGroupsJoined: bool = False,
         totalFriends: bool = False,
-        ) -> Union[str, None]:
+        ) -> TProtectedString:
         tags: list[str] = []
         
         try:
@@ -231,7 +403,7 @@ class SteamScrape:
         
         return NoneArgumentsInitialized.__doc__
     
-    def recentActivity(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[str, None]:
+    def recentActivity(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedString:
         try:
             self.__json_data['recentActivity'] = bs4.BeautifulSoup(
                 markup=RequestHandler(
@@ -255,7 +427,7 @@ class SteamScrape:
             
         return self.json_data['recentActivity']
     
-    def last3GamesPlayedMeta(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None, names: bool = False, info: bool = False) -> Union[list[str], None]:
+    def last3GamesPlayedMeta(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None, names: bool = False, info: bool = False) -> TProtectedListString:
         games_names: list[str] = []
         games_info: list[str] = []
         
@@ -309,7 +481,7 @@ class SteamScrape:
         else:
             return NoneArgumentsInitialized.__doc__
         
-    def userAwardsMeta(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None, awards_recieved: bool = False, awards_given: bool = False) -> Union[str, None]:
+    def userAwardsMeta(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None, awards_recieved: bool = False, awards_given: bool = False) -> TProtectedString:
         awards: list[str] = []
         
         try:
@@ -343,7 +515,7 @@ class SteamScrape:
         else:
             return NoneArgumentsInitialized.__doc__
         
-    def badges(self, profile_id: Union[str, None] = None, profile_code: Union[str, None] = None) -> Union[list[str], list[None]]:
+    def badges(self, profile_id: TProtectedString = None, profile_code: TProtectedString = None) -> TProtectedListString:
         badges: list[str] = []
         
         try:
@@ -371,14 +543,14 @@ class SteamScrape:
         return badges
         
     @property
-    def json_data(self) -> dict[str, Any]:
+    def json_data(self) -> TProtectedJson:
         return self.__json_data
     
-    def startApi(self, log: bool = True) -> Literal[None]:
+    def startApi[TApi: Literal[None]](self, log: bool = True) -> TApi:
         if (int(list(sys.version_info)[1]) >= 11):
             if (log):
                 init()
-                print(f'{Fore.GREEN}Api Started Successfully{Fore.WHITE}')
+                print(f'{Fore.GREEN}Steam Api Started Successfully{Fore.WHITE}')
             
             self.__json_data = {}
         else:

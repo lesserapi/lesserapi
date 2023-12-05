@@ -9,7 +9,7 @@ with codecs.open(os.path.normpath(path=os.path.join(os.path.abspath(path=os.path
 
 setup(
     name="lesserapi",
-    version='1.1.18',
+    version='1.1.19',
     author="Shervin Badanara (shervinbdndev)",
     maintainer="Shervin Badanara",
     author_email="shervin2234@gmail.com",

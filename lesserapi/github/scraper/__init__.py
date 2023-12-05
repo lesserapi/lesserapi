@@ -21,15 +21,22 @@ if (__debug__):
 
 
 
-class GithubScrape:
+class GithubScrape[
+    TProtectedString: Union[str, None],
+    TProtectedInteger: Union[int, None],
+    TProtectedAny: Union[Any, bool,str, None],
+    TProtectedJson: Union[dict[str, Any], None],
+    TProtectedListString: Union[list[str], list[None]],
+    TProtectedListInteger: Union[list[int], int, list[None]],
+]:
     """ Use This class to Gather and Identify Users on Github Platform. """
-    def __init__(self, data: RequestHandler) -> Literal[None]:
+    def __init__[TGithubScrapeInitializer: Literal[None]](self, data: RequestHandler) -> TGithubScrapeInitializer:
         super(GithubScrape, self).__init__()
         self.__data = data
         self.__json_data = {}
         
     @property
-    def fullname(self) -> Union[str, None]:
+    def fullname(self) -> TProtectedString:
         try:
             self.__json_data['fullname'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -46,7 +53,7 @@ class GithubScrape:
         return self.json_data['fullname']
     
     @property
-    def followers(self) -> Union[int, None]:
+    def followers(self) -> TProtectedInteger:
         try:
             self.__json_data['followers'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -63,7 +70,7 @@ class GithubScrape:
         return self.json_data['followers']
     
     @property
-    def followings(self) -> Union[int, None]:
+    def followings(self) -> TProtectedInteger:
         try:
             self.__json_data['followings'] = re.search(
                 pattern=r'\d+',
@@ -83,7 +90,7 @@ class GithubScrape:
         return self.json_data['followings']
     
     @property
-    def biography(self) -> Union[Any, str, None]:
+    def biography(self) -> TProtectedAny:
         try:
             self.__json_data['biography'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -100,7 +107,7 @@ class GithubScrape:
         return self.json_data['biography']
     
     @property
-    def location(self) -> Union[Any, str, None]:
+    def location(self) -> TProtectedAny:
         try:
             self.__json_data['location'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -117,7 +124,7 @@ class GithubScrape:
         return self.json_data['location']
     
     @property
-    def website(self) -> Union[Any, str, None]:
+    def website(self) -> TProtectedAny:
         try:
             self.__json_data['website'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -134,7 +141,7 @@ class GithubScrape:
         return self.json_data['website']
     
     @property
-    def totalRepositories(self) -> Union[int, None]:
+    def totalRepositories(self) -> TProtectedInteger:
         try:
             self.__json_data['totalRepositories'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -152,7 +159,7 @@ class GithubScrape:
         return self.json_data['totalRepositories']
     
     @property
-    def totalStarsGiven(self) -> Union[int, None]:
+    def totalStarsGiven(self) -> TProtectedInteger:
         try:
             self.__json_data['totalStarsGiven'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -170,7 +177,7 @@ class GithubScrape:
         
         return self.json_data['totalStarsGiven']
     
-    def repositoriesNames(self, username: str, ftl: bool = False) -> Union[list[str], list[None]]:
+    def repositoriesNames(self, username: str, ftl: bool = False) -> TProtectedListString:
         names: list = []
         
         try:
@@ -186,7 +193,7 @@ class GithubScrape:
         
         return names
     
-    def repositoryDescription(self, username:str, repo_name: str, reverse: bool = False) -> Union[str, None]:
+    def repositoryDescription(self, username:str, repo_name: str, reverse: bool = False) -> TProtectedString:
         try:
             self.__json_data['repositoryDescription'] = bs4.BeautifulSoup(
                 markup=RequestHandler(url=UserHandler(username=username,).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
@@ -205,7 +212,7 @@ class GithubScrape:
         
         return self.json_data['repositoryDescription']
     
-    def isRepositoryPublicArchive(self, username: str, repo_name: str) -> Union[str, bool, None]:
+    def isRepositoryPublicArchive(self, username: str, repo_name: str) -> TProtectedAny:
         status: bool = False
         
         try:
@@ -228,7 +235,7 @@ class GithubScrape:
             status = False
             return status
         
-    def repositoryUsedLanguages(self, username: str, repo_name: str) -> Union[list[str], list[None]]:
+    def repositoryUsedLanguages(self, username: str, repo_name: str) -> TProtectedListString:
         langs: list[str] = []
         
         try:
@@ -247,7 +254,7 @@ class GithubScrape:
         
         return False
     
-    def userAchievements(self, username: str) -> Union[list[str], list[None]]:
+    def userAchievements(self, username: str) -> TProtectedListString:
         achievements: list[str] = []
         
         try:
@@ -258,7 +265,7 @@ class GithubScrape:
             
         return achievements
     
-    def checkRepositoryStars(self, username: str, repo_name: str) -> Union[int, None]:
+    def checkRepositoryStars(self, username: str, repo_name: str) -> TProtectedInteger:
         try:
             self.__json_data['checkRepositoryStars'] = bs4.BeautifulSoup(
                 markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
@@ -276,7 +283,7 @@ class GithubScrape:
         
         return self.json_data['checkRepositoryStars']
     
-    def repositoryLastCommitDateOnBranch(self, username: str, repo_name: str, branch_name: str) -> Union[str, None]:
+    def repositoryLastCommitDateOnBranch(self, username: str, repo_name: str, branch_name: str) -> TProtectedString:
         try:
             self.__json_data['repositoryLastCommitDateOnBranch'] = bs4.BeautifulSoup(
                 markup=RequestHandler(url=UserHandler(username=username).serialize(
@@ -297,7 +304,7 @@ class GithubScrape:
         
         return self.json_data['repositoryLastCommitDateOnBranch']
     
-    def repositoryCommitsDatesOnBranch(self, username: str, repo_name: str, branch_name: str) -> Union[list[str], list[None]]:
+    def repositoryCommitsDatesOnBranch(self, username: str, repo_name: str, branch_name: str) -> TProtectedListString:
         commits: list[str] = []
         
         try:
@@ -308,7 +315,7 @@ class GithubScrape:
                 
         return commits
     
-    def repositoryBranchesCount(self, username: str, repo_name: str) -> Union[int, None]:
+    def repositoryBranchesCount(self, username: str, repo_name: str) -> TProtectedInteger:
         try:
             self.__json_data['repositoryBranchesCount'] = int(
                 bs4.BeautifulSoup(
@@ -368,7 +375,7 @@ class GithubScrape:
         except:
             return False
     
-    def repositoryLicenseType(self, username: str, repo_name: str) -> Union[str, None]:
+    def repositoryLicenseType(self, username: str, repo_name: str) -> TProtectedString:
         try:
             self.__json_data['repositoryLicenseType'] = bs4.BeautifulSoup(
                 markup=RequestHandler(url=UserHandler(username=username).serialize(_=True, repo_name=repo_name)).sendGetRequest(content=True),
@@ -388,7 +395,7 @@ class GithubScrape:
     ##############################
     #   Method in Beta Version   #
     ##############################
-    def listRepositoryWatchers(self, username: str, repo_name: str) -> Union[list[str], list[None]]:
+    def listRepositoryWatchers(self, username: str, repo_name: str) -> TProtectedListString:
         watchers: list[str] = []
         
         try:
@@ -399,7 +406,7 @@ class GithubScrape:
             
         return watchers
     
-    def listRepositoryBranches(self, username: str, repo_name: str) -> Union[list[str], list[None]]:
+    def listRepositoryBranches(self, username: str, repo_name: str) -> TProtectedListString:
         branches: list[str] = []
         
         try:
@@ -410,7 +417,7 @@ class GithubScrape:
             
         return branches
     
-    def listFollowings(self, username: str) -> Union[list[str], list[None]]:
+    def listFollowings(self, username: str) -> TProtectedListString:
         followings: list[str] = []
         
         try:
@@ -421,7 +428,7 @@ class GithubScrape:
         
         return followings
     
-    def listFollowers(self, username: str) -> Union[list[str], list[None]]:
+    def listFollowers(self, username: str) -> TProtectedListString:
         followers: list[str] = []
         
         try:
@@ -435,7 +442,7 @@ class GithubScrape:
     ##############################
     #   Method in Beta Version   #
     ##############################
-    def starsGivenRepositoriesNames(self, username: str) -> Union[list[str], list[None]]:
+    def starsGivenRepositoriesNames(self, username: str) -> TProtectedListString:
         sgrns: list[str] = []
         
         try:
@@ -446,7 +453,7 @@ class GithubScrape:
         
         return sgrns
     
-    def MinMaxRepositoryStarsByPageIndex(self, username: str, page_index: int, show_min: bool = False , show_max: bool = False) -> Union[int, list[int]]:
+    def MinMaxRepositoryStarsByPageIndex(self, username: str, page_index: int, show_min: bool = False , show_max: bool = False) -> TProtectedListInteger:
         list_stars: list[int] = []
         
         try:
@@ -464,7 +471,7 @@ class GithubScrape:
             
         return [min(list_stars), max(list_stars)]
     
-    def userOrganizations(self, username: str) -> Union[list[str], list[None]]:
+    def userOrganizations(self, username: str) -> TProtectedListString:
         orgs: list[str] = []
         
         try:
@@ -476,7 +483,7 @@ class GithubScrape:
             
         return orgs
     
-    def userOrganizationsPictures(self, username: str) -> Union[list[str], list[None]]:
+    def userOrganizationsPictures(self, username: str) -> TProtectedListString:
         orgsPics: list[str] = []
         
         try:
@@ -511,7 +518,7 @@ class GithubScrape:
         return self.json_data['isPro']
     
     @property
-    def lastYearContributions(self) -> Union[int, None]:
+    def lastYearContributions(self) -> TProtectedListInteger:
         try:
             self.__json_data['lastYearContributions'] = int(
                 str(
@@ -532,7 +539,7 @@ class GithubScrape:
         return self.json_data['lastYearContributions']
     
     @property
-    def profilePictureUrl(self) -> Union[str, None]:
+    def profilePictureUrl(self) -> TProtectedListString:
         try:
             self.__json_data['profilePictureUrl'] = bs4.BeautifulSoup(
                 markup=self.__data,
@@ -549,14 +556,14 @@ class GithubScrape:
         return self.json_data['profilePictureUrl']
         
     @property
-    def json_data(self) -> dict[str, Any]:
+    def json_data(self) -> TProtectedJson:
         return self.__json_data
     
-    def startApi(self, log: bool = True) -> Literal[None]:
+    def startApi[TApi: Literal[None]](self, log: bool = True) -> TApi:
         if (int(list(sys.version_info)[1]) >= 11):
             if (log):
                 init()
-                print(f'{Fore.GREEN}Api Started Successfully{Fore.WHITE}')
+                print(f'{Fore.GREEN}Github Api Started Successfully{Fore.WHITE}')
             
             self.__json_data = {
                 'fullname': self.fullname,

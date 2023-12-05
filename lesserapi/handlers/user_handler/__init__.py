@@ -1,22 +1,22 @@
 if (__debug__):
     try:
-        from typing import Literal
+        from typing import Literal, Union
 
     except ModuleNotFoundError.__doc__ as mnfe:
         raise mnfe
 
 
-class UserHandler:
+class UserHandler[TProtectedString: Union[str, None]]:
     """ Base User Handler for Handling Users to the target URL by initializing the Arguments. """
-    def __init__(self, username: str) -> Literal[None]:
+    def __init__[TUserHandlerInitializer: Literal[None]](self, username: TProtectedString) -> TUserHandlerInitializer:
         super(UserHandler, self).__init__()
         self.__username = username
 
     @property
-    def username(self) -> str:
+    def username(self) -> TProtectedString:
         return self.__username
 
-    def serialize(self,
+    def serialize[TSerialize: str](self,
                   get_branch: bool = False,
                   get_repos: bool = False,
                   get_repos_v2: bool = False,
@@ -36,7 +36,7 @@ class UserHandler:
                   steam_awards_prof_code: bool = False,
                   steam_badges_prof_id: bool = False,
                   steam_badges_prof_code: bool = False,
-        ) -> str:
+        ) -> TSerialize:
         if (get_repos):
             return f'https://github.com/{self.username}?tab=repositories'
         if (get_repos_v2):

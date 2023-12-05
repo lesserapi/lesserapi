@@ -14,7 +14,7 @@ if (__debug__):
 
 class RequestHandler:
     """ Base Request Handler for Handling Requests. """
-    def __init__(self, url: str) -> Literal[None]:
+    def __init__[TRequestHandlerInitializer: Literal[None]](self, url: str) -> TRequestHandlerInitializer:
         super(RequestHandler, self).__init__()
         self.__url = url
         self.__data = None
@@ -23,7 +23,7 @@ class RequestHandler:
     def url(self) -> str:
         return self.__url
         
-    def sendGetRequest(self, content: bool = False, status_code = False) -> Union[int, bytes, Literal[None]]:
+    def sendGetRequest[TGetRequest: Union[int, bytes, Literal[None]]](self, content: bool = False, status_code = False) -> TGetRequest:
         try:
             self.__data = requests.get(url=self.url)
             

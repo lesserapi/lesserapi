@@ -1,10 +1,13 @@
 if (__debug__):
     try:
-        from .steam import SteamScrape
         from .github import GithubScrape
-        from .exceptions import *
-        from .handlers import *
-        from .core import __version__, __package__, __qualname__, __doc__
+        from .steam import SteamScrape
+        from .steam.backup import GAME_CODES
+        from .exceptions import NoneFilledPropertyException, NoneArgumentsInitialized, NonePublicArchiveRepositoryException, UserHasNoLocationException
+        from .handlers.user_handler import UserHandler
+        from .handlers.request_handler import RequestHandler
+        from .utils import findGamesWithSameName
+        from .core import __version__, __package__, __qualname__, __desc__, __annotations__
     
     except ModuleNotFoundError.__doc__ as mnfe:
         raise mnfe

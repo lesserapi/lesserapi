@@ -4,7 +4,7 @@
     </a>
 </div>
 <h1 align='center' style="font-size:5rem"><b>lesserapi</b></h1>
-<p align='center'><b>Version 1.1.18</b></p>
+<p align='center'><b>Version 1.1.19</b></p>
 <p align='center'><b>Written with Python 3.11.3</b></p>
 <div align="center">
     <div align="center">
@@ -488,6 +488,55 @@ def main():
     #     'Far Cry 4': '33 hrs on recordlast played on 27 Nov'
     # }
     
+
+
+
+if (__name__ == "__main__"):
+    main()
+
+```
+
+<br><br><br>
+
+# New Addons & Changes on Version 1.1.19
+
+## +5 New Functions
+## +2 New Components
+## Package Functionality Stablized
+
+
+```python
+
+from lesserapi.steam.backup import GAME_CODES # + New Builtin Backup from Steam Game Codes: ! Do not open this Component
+from lesserapi.steam.scraper import SteamScrape
+from lesserapi.utils import findGamesWithSameName
+
+
+STEAM_USERNAME: str = 'shervinbdndev'
+
+
+
+def main() -> None:
+    scraper: SteamScrape = SteamScrape()
+    
+    scraper.startApi(log=True)
+    
+    # Here are 3 Functions that doesn't need to explain what they each do.
+    print(scraper.accountTotalXP(profile_id=STEAM_USERNAME))
+    print(scraper.accountNextLevel(profile_id=STEAM_USERNAME))
+    print(scraper.accountXPNeededForNextLevel(profile_id=STEAM_USERNAME))
+    
+    # Here we have an new function that you can use for finding the exact name of the game.
+    # for example if you run the code below:
+    print(findGamesWithSameName(name='Counter-Strike'))
+
+    # It should give you sth
+
+    # ['Counter-Strike: Source Dedicated Server', 'Counter-Strike: GO - Intro Trailer', 'Counter-Strike Online', 'Counter-Strike Global Offensive - Dedicated Server', 'Counter-Strike: Global Offensive - SDK', 'Counter-Strike', 'Counter-Strike: Condition Zero Deleted Scenes', 'Counter-Strike Steamworks Beta', 'Counter-Strike: Source Beta', 'Counter-Strike: Condition Zero', 'Counter-Strike Nexon: Studio', 'Counter-Strike Nexon: Zombies - Rivals DLC', 'Counter-Strike Nexon: Zombies - Teddy Nightmare (30 Days)', 'Counter-Strike Nexon: Zombies - Teddy Nightmare (15 Days)', "Counter-Strike Nexon: Zombies - Oz's Trio", 'Counter-Strike Nexon: Zombies - Starter Pack', 'Counter-Strike Nexon: Zombies - Journey to the West + Permanent Character', 'Counter-Strike Nexon: Zombies - Dragon Set + Permanent Character', 'Counter-Strike Chat', 'Counter-Strike Flair', 'Counter-Strike: Global Offensive', 'Counter-Strike: Source']
+    
+    # After you find the exact name of the game you want, you can use GAME_CODES.
+    # GAME_CODES is a constant builtin lesserapi dictionary that you can pass the game exact name as the key to it, afterwards you're all done.
+    print(scraper.gameDetails(game_code=GAME_CODES['Counter-Strike'], raw_json=True))
 
 
 
