@@ -7,6 +7,7 @@ if (__debug__):
         from .handlers.user_handler import UserHandler
         from .handlers.request_handler import RequestHandler
         from .utils import findGamesWithSameName
+        from .utils.update import LesserApiUpdator
         from .core import __version__, __package__, __qualname__, __desc__, __annotations__
     
     except ModuleNotFoundError.__doc__ as mnfe:

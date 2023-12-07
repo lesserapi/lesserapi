@@ -4,7 +4,7 @@
     </a>
 </div>
 <h1 align='center' style="font-size:5rem"><b>lesserapi</b></h1>
-<p align='center'><b>Version 1.1.19</b></p>
+<p align='center'><b>Version 1.1.20</b></p>
 <p align='center'><b>Written with Python 3.11.3</b></p>
 <div align="center">
     <div align="center">
@@ -83,16 +83,44 @@ py -m pip install lesserapi
 <br><br><br>
 <h1 align='left'><b>Update Library</b></h1>
  
-# Windows / CMD , Linux / Terminal
-```python
-pip install -U lesserapi
-```
+# Windows / CMD , Linux / Terminal / LesserApiUpdator
 
-<h2 align='left'>or</h2>
+### You can use Command Line to install and update LesserApi to the latest verion.
 
-```python
+- Windows:
+
+```shell
 py -m pip install --upgrade lesserapi
 ```
+- Linux:
+```shell
+python -m pip install --upgrade lesserapi
+```
+
+### Also There's another way to update.
+
+
+- You can Check if there is any new update available.
+```python
+from lesserapi.utils.update import LesserApiUpdator
+
+LesserApiUpdator.check_for_updates()
+```
+
+- Output:
+
+<img src='https://raw.githubusercontent.com/lesserapi/assets/assets/lesserapi/check_version.png'></img>
+
+### Afterwards, If you decide to update! you can easily do it by running the code below.
+
+```python
+from lesserapi.utils.update import LesserApiUpdator
+
+LesserApiUpdator.update()
+```
+
+### The update starts depends on your Operating System.
+
 
 <br><br><br>
 

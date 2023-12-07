@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lesserapi"
-version = "1.1.19"
+version = "1.1.20"
 description = "A python Package API for gathering Users Information in some Platforms."
 authors = ["Shervin <68682979+shervinbdndev@users.noreply.github.com>"]
 readme = "README.md"

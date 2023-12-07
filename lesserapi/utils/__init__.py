@@ -1,8 +1,10 @@
+from typing import Union
 from ..steam.backup import GAME_CODES
 
 
 
-def findGamesWithSameName[TProtectedString: str, TProtectedListString: list[str]](name: TProtectedString) -> TProtectedListString:
+
+def findGamesWithSameName[TProtectedString: Union[str, None], TProtectedListString: Union[list[str], list[None], None]](name: TProtectedString) -> TProtectedListString:
     games: TProtectedListString = []
     
     for game in GAME_CODES.keys():

@@ -1,4 +1,4 @@
-__version__: str = '1.1.19'
+__version__: str = '1.1.20'
 __package__: str = 'lesserapi'
 __qualname__ = __package__
 __desc__: str = 'A python Package API for gathering Users Information in some Platforms.'

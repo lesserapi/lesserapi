@@ -25,6 +25,8 @@ def main() -> None:
     print(steamScraper.userMeta(profile_id='shervinbdndev', totalAwards=True))
     print(steamScraper.userMeta(profile_id='shervinbdndev', totalGroupsJoined=True))
     
+    print(steamScraper.accountXPNeededForNextLevel(profile_id='shervinbdndev'))
+    
 
 
 
