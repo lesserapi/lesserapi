@@ -109,7 +109,7 @@ LesserApiUpdator.check_for_updates()
 
 - Output:
 
-<img src='https://raw.githubusercontent.com/lesserapi/assets/assets/lesserapi/check_version.png'></img>
+<img src='https://raw.githubusercontent.com/lesserapi/lesserapi/assets/check_version.png'></img>
 
 ### Afterwards, If you decide to update! you can easily do it by running the code below.
 
