@@ -22,6 +22,7 @@ class LesserApiUpdator[T: None]:
         else:
             print(f'{Fore.WHITE}Your {__package__} is up to date')
     
+    @staticmethod
     def update() -> T:
         __PLATFORM: str = platform.platform()
         

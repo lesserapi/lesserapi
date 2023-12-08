@@ -85,7 +85,7 @@ py -m pip install lesserapi
  
 # Windows / CMD , Linux / Terminal / LesserApiUpdator
 
-### You can use Command Line to install and update LesserApi to the latest verion.
+### You can use Command Line to update LesserApi to the latest verion.
 
 - Windows:
 
